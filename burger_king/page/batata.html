@@ -49,9 +49,12 @@
           <a href="com_im.html"
             class="text-gray-700 dark:text-gray-200 hover:text-bk-red transition-colors">Completo/Incompleto</a>
           <a href="batata.html" class="text-gray-700 dark:text-gray-200 hover:text-bk-red transition-colors">Batatas</a>
-          <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <i class="fas fa-moon text-gray-600 dark:text-gray-400"></i>
-          </button>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input class="sr-only peer" id="theme-toggle" type="checkbox" />
+            <div
+              class="w-12 h-6 rounded-full ring-0 peer duration-500 outline-none bg-gray-200 overflow-hidden before:flex before:items-center before:justify-center after:flex after:items-center after:justify-center before:content-['☀️'] before:absolute before:h-5 before:w-5 before:top-1/2 before:bg-white before:rounded-full before:left-0.5 before:-translate-y-1/2 before:transition-all before:duration-700 peer-checked:before:opacity-0 peer-checked:before:rotate-90 peer-checked:before:-translate-y-full shadow-lg shadow-gray-400 peer-checked:shadow-lg peer-checked:shadow-gray-700 peer-checked:bg-[#383838] after:content-['🌑'] after:absolute after:bg-[#1d1d1d] after:rounded-full after:top-[2px] after:right-0.5 after:translate-y-full after:w-5 after:h-5 after:opacity-0 after:transition-all after:duration-700 peer-checked:after:opacity-100 peer-checked:after:rotate-180 peer-checked:after:translate-y-0">
+            </div>
+          </label>
         </div>
       </div>
 
@@ -65,11 +68,12 @@
           <a href="com_im.html"
             class="text-gray-700 dark:text-gray-200 hover:text-bk-red transition-colors">Completo/Incompleto</a>
           <a href="batata.html" class="text-gray-700 dark:text-gray-200 hover:text-bk-red transition-colors">Batatas</a>
-          <button id="theme-toggle-mobile"
-            class="flex items-center text-gray-700 dark:text-gray-200 hover:text-bk-red transition-colors">
-            <i class="fas fa-moon mr-2"></i>
-            Alternar Tema
-          </button>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input class="sr-only peer" id="theme-toggle-mobile" type="checkbox" />
+            <div
+              class="w-12 h-6 rounded-full ring-0 peer duration-500 outline-none bg-gray-200 overflow-hidden before:flex before:items-center before:justify-center after:flex after:items-center after:justify-center before:content-['☀️'] before:absolute before:h-5 before:w-5 before:top-1/2 before:bg-white before:rounded-full before:left-0.5 before:-translate-y-1/2 before:transition-all before:duration-700 peer-checked:before:opacity-0 peer-checked:before:rotate-90 peer-checked:before:-translate-y-full shadow-lg shadow-gray-400 peer-checked:shadow-lg peer-checked:shadow-gray-700 peer-checked:bg-[#383838] after:content-['🌑'] after:absolute after:bg-[#1d1d1d] after:rounded-full after:top-[2px] after:right-0.5 after:translate-y-full after:w-5 after:h-5 after:opacity-0 after:transition-all after:duration-700 peer-checked:after:opacity-100 peer-checked:after:rotate-180 peer-checked:after:translate-y-0">
+            </div>
+          </label>
         </div>
       </div>
     </div>
@@ -235,25 +239,23 @@
 
     const savedTheme = localStorage.getItem('theme') || 'light';
     html.classList.toggle('dark', savedTheme === 'dark');
-    updateIcon(savedTheme);
+    themeToggle.checked = savedTheme === 'dark';
+    themeToggleMobile.checked = savedTheme === 'dark';
 
-    function toggleTheme() {
-      const isDark = html.classList.toggle('dark');
+    function toggleTheme(isDark) {
+      html.classList.toggle('dark', isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateIcon(isDark ? 'dark' : 'light');
+      themeToggle.checked = isDark;
+      themeToggleMobile.checked = isDark;
     }
 
-    themeToggle.addEventListener('click', toggleTheme);
-    themeToggleMobile.addEventListener('click', toggleTheme);
+    themeToggle.addEventListener('change', () => {
+      toggleTheme(themeToggle.checked);
+    });
 
-    function updateIcon(theme) {
-      const desktopIcon = themeToggle.querySelector('i');
-      const mobileIcon = themeToggleMobile.querySelector('i');
-
-      const iconClass = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-      desktopIcon.className = `${iconClass} text-gray-600 dark:text-gray-400`;
-      mobileIcon.className = `${iconClass} mr-2`;
-    }
+    themeToggleMobile.addEventListener('change', () => {
+      toggleTheme(themeToggleMobile.checked);
+    });
 
     // Calculadora de Batatas
     const inputs = document.querySelectorAll('input[type="number"]');
