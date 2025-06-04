@@ -1,11 +1,9 @@
 const calculo = () => {
     const numberReal = document.getElementById('real').value;
-    const numberEstimado = document
-        .getElementById('estimado')
-        .value.toString('pt-BR');
+    const numberEstimado = document.getElementById('estimado').value;
 
-    const real = parseInt(numberReal);
-    const estimado = parseInt(numberEstimado);
+    const real = parseFloat(numberReal);
+    const estimado = parseFloat(numberEstimado);
 
     const result = document.getElementById('result');
     const calc = ((real - estimado) / estimado) * 100;
@@ -43,7 +41,7 @@ window.onload = () => {
     form.onsubmit = (event) => {
         event.preventDefault();
     };
-    calculo;
+    calculo();
 };
 
 const btnEnter = (event) => {
